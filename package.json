@@ -1,0 +1,11 @@
+{
+  "name": "people9",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "2.4.7",
+    "jade": "0.16.2",
+    "less": "1.1.4",
+    "mongodb": "0.9.7-1"
+  }
+}
