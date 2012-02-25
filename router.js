@@ -49,7 +49,6 @@ module.exports = function (app) {
             on_error(err);
             return;
           }
-          console.log(username);
           res.redirect('/' + username);
         });
       });

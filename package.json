@@ -6,6 +6,7 @@
     "express": "2.5.8",
     "jade": "0.20.3",
     "less": "latest",
-    "mongodb": "latest"
+    "mongodb": "latest",
+    "async": "latest"
   }
 }
