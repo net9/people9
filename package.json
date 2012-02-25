@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "2.4.7",
-    "jade": "0.16.2",
-    "less": "1.1.4",
-    "mongodb": "0.9.7-1"
+    "express": "2.5.8",
+    "jade": "0.20.3",
+    "less": "latest",
+    "mongodb": "latest"
   }
 }
