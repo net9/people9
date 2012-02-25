@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var express = require('express');
 var messages = require('./messages');
 var app = express.createServer();
@@ -52,6 +54,10 @@ app.dynamicHelpers({
 });
 
 if (!module.parent) {
-  app.listen(3000);
-  console.log("Express server listening on port %d", app.address().port);
+  var port = 3000;
+  if (process.argv.length >= 3) {
+    port = parseInt(process.argv[2]);
+  }
+  app.listen(port);
+  console.log('Express server listening on port %d', port);
 }
