@@ -2,7 +2,44 @@ var messages = require('./messages');
 var config = require('./config');
 var OAuth = require('./lib/oauth');
 var userman = require('./userman.js');
+var async = require('async');
+
 var oauth = new OAuth(config.oauth);
+
+exports.displayUser = function displayUser(req, res) {
+  var username = req.params.name;
+  var user;
+  
+  async.waterfall([
+    function(callback) {
+      //Fetch user infomation
+      userman.getUser({username: username}, callback);
+    },
+    function(theUser, callback) {
+      if (theUser == null) {
+        callback('no-such-user');
+        return;
+      }
+      user = theUser;
+      //Fetch domains belong to the user
+      userman.getDomains({username: username}, callback);
+    },
+  ], function(err, domains) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+      return;
+    }
+    res.render('user', {
+      locals: {
+        title: messages.get('user'),
+        returnto: req.query.returnto,
+        userinfo: user.net9,
+        domains: domains,
+      },
+    });
+  });
+};
 
 exports.login = function login(req, res) {
   site_uri = 'http://' + req.headers.host;
@@ -39,7 +76,7 @@ exports.authCallback = function authCallback(req, res) {
   oauth.get_access_token(code, callback_uri, function(access_token){
     oauth.get_userinfo(function(user_info) {
       var username = user_info.username;
-      userman.update_net9(user_info, function(err) {
+      userman.updateNet9(user_info, function(err) {
         if (err) {
           on_error(err);
           return;
@@ -47,24 +84,6 @@ exports.authCallback = function authCallback(req, res) {
         req.session.username = username;
         res.redirect('/' + username);
       });
-    });
-  });
-};
-
-exports.displayUser = function displayUser(req, res) {
-  var username = req.params.name;
-  userman.get_user({username: username}, function(err, user) {
-    if (user == null) {
-      req.flash('error', 'no-such-user');
-      res.redirect('/');
-      return;
-    }
-    res.render('user', {
-      locals: {
-        title: messages.get('User'),
-        returnto: req.query.returnto,
-        userinfo: user.net9,
-      },
     });
   });
 };
@@ -79,13 +98,34 @@ exports.checkLogin = function regDomain(req, res, next) {
 };
 
 exports.regDomain = function regDomain(req, res) {
-  res.render('regdomain', {
-    locals: {
-      title: messages.get('register-new-domain'),
-      username: req.session.username,
-      returnto: req.query.returnto,
-    },
-  });
+  var domainName = req.params.name;
+  if (domainName) {
+    userman.getDomains({name: domainName}, function(err, domains) {
+      if (err || domains.length !== 1) {
+        req.flash('error', 'no-such-domain');
+        res.redirect('/' + req.session.username);
+      } else {
+        var domain = domains[0];
+        res.render('regdomain', {
+          locals: {
+            title: messages.get('edit-domain-information'),
+            username: req.session.username,
+            domain: domain,
+            returnto: req.query.returnto,
+          },
+        });
+      }
+    });
+  } else {
+    res.render('regdomain', {
+      locals: {
+        title: messages.get('register-new-domain'),
+        username: req.session.username,
+        domain: null,
+        returnto: req.query.returnto,
+      },
+    });
+  }
 };
 
 exports.regDomainDo = function regDomain(req, res) {

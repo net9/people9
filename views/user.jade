@@ -36,6 +36,9 @@
         td= userinfo.bio
 
 .section#section-apps
-  h2= msg('my-accounts')
-  h2= msg('my-domains')
+  h2= msg('my-accounts')  h2= msg('my-domains')
+  - if (domains.length)
+    ul.operable-list!= partial('partials/domainitem', domains)
+  - else
+    div= msg('no-apps-yet')
   a.button(href="/regdomain")= msg('register-new-domain')

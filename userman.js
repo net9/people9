@@ -1,7 +1,7 @@
 var mongodb = require('./lib/db.js');
 var async = require('async');
 
-exports.get_user = function(query, callback) {
+exports.getUser = function(query, callback) {
   async.waterfall([
     function(callback) {
       mongodb.open(callback);
@@ -17,7 +17,7 @@ exports.get_user = function(query, callback) {
   });
 };
 
-exports.update_net9 = function(net9_user_info, callback) {
+exports.updateNet9 = function(net9_user_info, callback) {
   var uid = parseInt(net9_user_info['uid']);
   var username = net9_user_info['username'];
   delete net9_user_info['uid'];
@@ -104,5 +104,22 @@ exports.regDomain = function regDomain(domain, callback) {
   ], function(err) {
     //Do modification on DNS configuration
     callback(err);
+  });
+};
+
+exports.getDomains = function getDomains(cond, callback) {
+  async.waterfall([
+    function(callback) {
+      mongodb.open(callback);
+    },
+    function(db, callback) {
+      db.collection('domains', callback);
+    },
+    function(collection, callback) {
+      var cursor = collection.find(cond);
+      cursor.toArray(callback);
+    },
+  ], function(err, docs) {
+    callback(err, docs);
   });
 };

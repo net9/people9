@@ -1,21 +1,30 @@
-form(method="POST", action="")
+form(method="POST", action="/regdomain")
   table.form-table
     tr
       th
         label(for="domain-name")= msg('domain-name')
       td
-        input(type="text", id="domain-name", name="name", value='')
+        - if (domain)
+          input(type="text", id="domain-name", name="name", value=domain.name)
+        - else
+          input(type="text", id="domain-name", name="name", value='')
         \.net9.org
     tr
       th
         label(for="ip-address")= msg('ip-address')
       td
-        input(type="text", id="ip-address", name="ip", value='')
+        - if (domain)
+          input(type="text", id="ip-address", name="ip", value=domain.ip)
+        - else
+          input(type="text", id="ip-address", name="ip", value='')
     tr
       th
         label(for="domain-desc")= msg('domain-desc')
       td
-        textarea(id="domain-desc", name="desc")=''
+        - if (domain)
+          textarea(id="domain-desc", name="desc")=domain.desc
+        - else
+          textarea(id="domain-desc", name="desc")=''
     tr
       th
       td

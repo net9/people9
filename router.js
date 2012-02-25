@@ -17,5 +17,7 @@ module.exports = function (app) {
   app.all('/regdomain', userctl.checkLogin);
   app.get('/regdomain', userctl.regDomain);
   app.post('/regdomain', userctl.regDomainDo);
+  app.all('/regdomain/:name', userctl.checkLogin);
+  app.get('/regdomain/:name', userctl.regDomain);
   app.get('/:name', userctl.displayUser);
 };

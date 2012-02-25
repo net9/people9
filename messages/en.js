@@ -55,5 +55,5 @@ exports.messages = {
   'app-auth-message': 'Are you sure you want to authenticate the application <a href="/apps/$1" target="_blank"><strong>$2</strong></a>? If you do, <strong>$2</strong> will have access to your personal data.',
   'footer-text': '<p>This website you\'re viewing is made possible by countless developers from all over the world. Hail them.</p><p>THU.CS&T.SAST.Network</p>',
   'error-access_denied': 'The access of your account was denied.',
-  'error-not-login': 'You have not logged in to view the page.',
+  'error-not-login': 'You have to log in to view the page.',
 };
