@@ -1,13 +1,18 @@
 exports.messages = {
   'page-title': '$1 - Net9 People',
   'index-page-title': 'Net9 People',
-  'logged-in-as': 'Logged in as <strong>$1</strong> | ',
+  'logged-in-as': 'Logged in as <strong><a href="/$1">$1</a></strong> | ',
   'error-fields-required': 'Please fill in the required fields.',
   'error-unknown': 'Unknown error.',
   'error-unauthorized': 'You are unauthorized to perform that action.',
   'info-register-welcome': 'Welcome to the net9 user platform, $1! You can tell us more about yourself by <strong>editing your information</strong> below.',
+  'login': 'Log in',
+  'logout': 'Log out',
   'my-dashboard': 'Your dashboard',
   'my-info': 'Your information',
+  'my-accounts': 'Your accounts',
+  'my-domains': 'Your domains',
+  'register-new-domain': 'Register new domain',
   'edit-my-info': 'Edit your information',  'old-password': 'Old password',
   'editinfo-password-tips': 'Leave this blank unless you wish to change your password.',
   'editinfo-website-tips': 'Don\'t forget the <strong>http://</strong>.',
@@ -50,5 +55,6 @@ exports.messages = {
   'error-wrong-old-secret': 'The old application secret you provided is wrong.',
   'authenticating': 'Authenticating application: $1',
   'app-auth-message': 'Are you sure you want to authenticate the application <a href="/apps/$1" target="_blank"><strong>$2</strong></a>? If you do, <strong>$2</strong> will have access to your personal data.',
-  'footer-text': '<p>This website you\'re viewing is made possible by countless developers from all over the world. Hail them.</p><p>THU.CS&T.SAST.Network</p>'
+  'footer-text': '<p>This website you\'re viewing is made possible by countless developers from all over the world. Hail them.</p><p>THU.CS&T.SAST.Network</p>',
+  'error-access_denied': 'The access of your account was denied.',
 };

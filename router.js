@@ -15,13 +15,19 @@ module.exports = function (app) {
     });
   });
   
-  app.get('/auth', function (req, res) {
+  app.get('/login', function (req, res) {
     site_uri = 'http://' + req.headers.host;
     callback_uri = site_uri + '/auth_callback';
     
     oauth.authorize(callback_uri, function(redirect_uri){
       res.redirect(redirect_uri);
     });
+  });
+  
+  app.get('/logout', function (req, res) {
+    var redirectURL = req.query.returnto || '/';
+    req.session.username = null;
+    res.redirect(redirectURL);
   });
   
   app.get('/auth_callback', function (req, res) {
@@ -49,9 +55,19 @@ module.exports = function (app) {
             on_error(err);
             return;
           }
+          req.session.username = username;
           res.redirect('/' + username);
         });
       });
+    });
+  });
+  
+  app.get('/regdomain', function (req, res) {
+    res.render('regdomain', {
+      locals: {
+        title: messages.get('Index'),
+        returnto: req.query.returnto,
+      },
     });
   });
   
