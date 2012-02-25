@@ -1,5 +1,5 @@
 var express = require('express');
-var messages = require('./messages/getter');
+var messages = require('./messages');
 var app = express.createServer();
 
 app.configure(function () {
