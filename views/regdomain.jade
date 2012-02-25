@@ -1,0 +1,23 @@
+form(method="POST", action="")
+  table.form-table
+    tr
+      th
+        label(for="domain-name")= msg('domain-name')
+      td
+        input(type="text", id="domain-name", name="name", value='')
+        \.net9.org
+    tr
+      th
+        label(for="ip-address")= msg('ip-address')
+      td
+        input(type="text", id="ip-address", name="ip", value='')
+    tr
+      th
+        label(for="domain-desc")= msg('domain-desc')
+      td
+        textarea(id="domain-desc", name="desc")=''
+    tr
+      th
+      td
+        input(type="submit", value=msg('Submit'))
+        a.button(href="/" + username)= msg('Cancel')

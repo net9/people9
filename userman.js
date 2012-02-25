@@ -68,3 +68,41 @@ exports.update_net9 = function(net9_user_info, callback) {
     callback(err);
   });
 };
+
+exports.regDomain = function regDomain(domain, callback) {
+  async.waterfall([
+    function(callback) {
+      mongodb.open(callback);
+    },
+    function(db, callback) {
+      db.collection('domains', callback);
+    },
+    function(collection, callback) {
+      async.waterfall([
+        function(callback) {
+          collection.ensureIndex('name', {unique: true}, callback);
+        },
+        function(indexName, callback) {
+          collection.ensureIndex('username', callback);
+        },
+        function(indexName, callback) {
+          collection.findOne({name: domain.name}, callback);
+        },
+        function(doc, callback) {
+          if (doc && doc.username != domain.username) {
+            //The existing domain record not belong to current user
+            callback('domain-exist');
+          } else {
+            doc = domain;
+          }
+          collection.update({name: domain.name}, doc, {safe: true, upsert: true}, callback);
+        },
+      ], function(err, doc) {
+        callback(err, doc);
+      });
+    },
+  ], function(err) {
+    //Do modification on DNS configuration
+    callback(err);
+  });
+};

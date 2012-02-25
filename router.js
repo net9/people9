@@ -14,6 +14,8 @@ module.exports = function (app) {
   app.get('/login', userctl.login);
   app.get('/logout', userctl.logout);
   app.get('/auth_callback', userctl.authCallback);
+  app.all('/regdomain', userctl.checkLogin);
   app.get('/regdomain', userctl.regDomain);
+  app.post('/regdomain', userctl.regDomainDo);
   app.get('/:name', userctl.displayUser);
 };

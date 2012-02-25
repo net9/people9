@@ -69,11 +69,35 @@ exports.displayUser = function displayUser(req, res) {
   });
 };
 
+exports.checkLogin = function regDomain(req, res, next) {
+  if (req.session.username) {
+    next();
+  } else {
+    req.flash('error', 'not-login');
+    res.redirect('/');
+  }
+};
+
 exports.regDomain = function regDomain(req, res) {
   res.render('regdomain', {
     locals: {
-      title: messages.get('Index'),
+      title: messages.get('register-new-domain'),
+      username: req.session.username,
       returnto: req.query.returnto,
     },
+  });
+};
+
+exports.regDomainDo = function regDomain(req, res) {
+  userman.regDomain({
+    username: req.session.username,
+    name: req.body.name,
+    ip: req.body.ip,
+    desc: req.body.desc,
+  }, function(err) {
+    if (err) {
+      req.flash('error', err);
+    }
+    res.redirect('/' + req.session.username);
   });
 };
