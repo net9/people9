@@ -13,6 +13,7 @@ exports.getUser = function(query, callback) {
       collection.findOne(query, callback);
     },
   ], function(err, doc) {
+    mongodb.close();
     callback(err, doc);
   });
 };
@@ -65,6 +66,7 @@ exports.updateNet9 = function(net9_user_info, callback) {
       });
     },
   ], function(err, result) {
+    mongodb.close();
     callback(err);
   });
 };
@@ -103,6 +105,7 @@ exports.regDomain = function regDomain(domain, callback) {
     },
   ], function(err) {
     //Do modification on DNS configuration
+    mongodb.close();
     callback(err);
   });
 };
@@ -120,6 +123,7 @@ exports.getDomains = function getDomains(cond, callback) {
       cursor.toArray(callback);
     },
   ], function(err, docs) {
+    mongodb.close();
     callback(err, docs);
   });
 };
