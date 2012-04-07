@@ -1,0 +1,13 @@
+<div class="hero-unit">
+  <h1>
+    <img src="/img/net9.gif" width="130" height="130" />
+    <img src="/img/people.png" width="250" height="100" />
+  </h1>
+  <p>歡迎各位酒井用戶來到People9。</p>
+  <% if (!session.username) { %>
+    <p>
+      <a class="btn btn-primary btn-large" href="/login">登入</a>
+    </p>
+  <% } %>
+
+</div>

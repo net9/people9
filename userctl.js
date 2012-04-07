@@ -45,7 +45,7 @@ exports.login = function login(req, res) {
   site_uri = 'http://' + req.headers.host;
   callback_uri = site_uri + '/auth_callback';
   
-  oauth.authorize(callback_uri, function(redirect_uri){
+  oauth.authorize(callback_uri, function(redirect_uri) {
     res.redirect(redirect_uri);
   });
 };
@@ -73,13 +73,13 @@ exports.authCallback = function authCallback(req, res) {
   callback_uri = site_uri + '/auth_callback';
 
   oauth.on('error', on_error);
-  oauth.get_access_token(code, callback_uri, function(access_token){
+  oauth.get_access_token(code, callback_uri, function(access_token) {
     oauth.get_userinfo(function(user_info) {
       var username = user_info.username;
       userman.updateNet9(user_info, function(err) {
+        console.log(err);
         if (err) {
-          on_error(err);
-          return;
+          return on_error(err);
         }
         req.session.username = username;
         res.redirect('/' + username);

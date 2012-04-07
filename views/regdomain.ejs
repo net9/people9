@@ -1,0 +1,30 @@
+<form class="form-horizontal" method="post" action="/regdomain">
+  <fieldset>
+    <legend><%= msg('register-new-domain') %></legend>
+    <div class="control-group">
+      <label class="control-label" for="domain-name"><%= msg('domain-name') %></label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="domain-name" name="name" value="<% if (domain) { %><%= domain.name %><% } %>">
+        <p class="help-block">無須輸入後綴，例如輸入byvoid，表示byvoid.net9.org</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ip-address"><%= msg('ip-address') %></label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="ip-address" name="ip" value="<% if (domain) { %><%= domain.ip %><% } %>">
+        <p class="help-block">例如59.66.134.21</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="domain-desc"><%= msg('domain-desc') %></label>
+      <div class="controls">
+        <textarea class="input-xlarge" id="domain-desc" name="desc" rows="4"><% if (domain) { %><%= domain.desc %><% } %></textarea>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary"><%= msg('Submit') %></button>
+      <a href="/<%= username %>" class="btn btn-danger"><%= msg('Cancel') %></a>
+    </div>
+  </fieldset>
+</form>

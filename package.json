@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "2.5.8",
-    "jade": "0.20.3",
+    "express": ">= 2.5.9",
+    "ejs": ">= 0.7.1",
     "less": "latest",
     "mongodb": "latest",
     "async": "latest"

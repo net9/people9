@@ -6,6 +6,6 @@ module.exports = {
     access_token_path: '/api/access_token',
     userinfo_path: '/api/userinfo',
     client_id: 'z-Vk7wR2MElPPD4NfTjZaTRdcFY',
-    secret: 'zCtAQcmchCQjUcRfM4iD',
+    secret: 'cB3NDj1g1qnlkWIWm2FK',
   },
 };

@@ -6,7 +6,7 @@ var app = express.createServer();
 
 app.configure(function () {
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
+  app.set('view engine', 'ejs');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -40,6 +40,20 @@ app.helpers({
 app.dynamicHelpers({
   session: function (req, res){
     return req.session;
+  },
+  error: function(req, res) {
+    var err = req.flash('error');
+    if (err.length)
+      return err;
+    else
+      return null;
+  },
+  success: function(req, res) {
+    var succ = req.flash('success');
+    if (succ.length)
+      return succ;
+    else
+      return null;
   },
   flashArray: function (req, res) {
     var flash = req.flash();
