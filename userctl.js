@@ -1,4 +1,5 @@
 var messages = require('./messages');
+var utils = require('./lib/utils');
 var accounts9 = require('./lib/accounts9');
 var userman = require('./userman.js');
 var async = require('async');
@@ -45,30 +46,26 @@ exports.logout = function logout(req, res) {
 };
 
 exports.login = function login(req, res) {
-  site_uri = 'http://' + req.headers.host;
-  callback_uri = site_uri + '/auth_callback';
+  var callbackUri = utils.getSiteUrl(req) + '/auth_callback';
   
-  var redirect_uri = accounts9.getAuthorizeUrl(callback_uri);
-  res.redirect(redirect_uri);
+  var redirectUri = accounts9.getAuthorizeUrl(callbackUri);
+  res.redirect(redirectUri);
 };
 
 exports.authCallback = function authCallback(req, res) {
-  error = req.param('error');
-  code = req.param('code');
-  
   function authError(error) {
     req.flash('error', error);
     res.redirect('/');
   };
-  
+
+  error = req.param('error');
+  code = req.param('code');
   if (error !== undefined || code === undefined) {
     return authError(error);
   }
   
-  site_uri = 'http://' + req.headers.host;
-  callback_uri = site_uri + '/auth_callback';
-
-  accounts9.getOAuthAccessToken(code, callback_uri, function(err, access_token, refresh_token) {
+  var callbackUri = utils.getSiteUrl(req) + '/auth_callback';
+  accounts9.getOAuthAccessToken(code, callbackUri, function(err, access_token, refresh_token) {
     if (err) {
       return authError(err);
     }
