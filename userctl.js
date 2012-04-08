@@ -1,10 +1,7 @@
 var messages = require('./messages');
-var config = require('./config');
-var OAuth = require('./lib/oauth');
+var accounts9 = require('./lib/accounts9');
 var userman = require('./userman.js');
 var async = require('async');
-
-var oauth = new OAuth(config.oauth);
 
 exports.displayUser = function displayUser(req, res) {
   var username = req.params.name;
@@ -41,43 +38,46 @@ exports.displayUser = function displayUser(req, res) {
   });
 };
 
-exports.login = function login(req, res) {
-  site_uri = 'http://' + req.headers.host;
-  callback_uri = site_uri + '/auth_callback';
-  
-  oauth.authorize(callback_uri, function(redirect_uri) {
-    res.redirect(redirect_uri);
-  });
-};
-
 exports.logout = function logout(req, res) {
   var redirectURL = req.query.returnto || '/';
   req.session.username = null;
   res.redirect(redirectURL);
 };
 
+exports.login = function login(req, res) {
+  site_uri = 'http://' + req.headers.host;
+  callback_uri = site_uri + '/auth_callback';
+  
+  var redirect_uri = accounts9.getAuthorizeUrl(callback_uri);
+  res.redirect(redirect_uri);
+};
+
 exports.authCallback = function authCallback(req, res) {
   error = req.param('error');
   code = req.param('code');
-  var on_error = function(error) {
+  
+  function authError(error) {
     req.flash('error', error);
     res.redirect('/');
   };
   
   if (error !== undefined || code === undefined) {
-    on_error(error);
-    return;
+    return authError(error);
   }
   
   site_uri = 'http://' + req.headers.host;
   callback_uri = site_uri + '/auth_callback';
 
-  oauth.on('error', on_error);
-  oauth.get_access_token(code, callback_uri, function(access_token) {
-    oauth.get_userinfo(function(user_info) {
-      var username = user_info.username;
-      userman.updateNet9(user_info, function(err) {
-        console.log(err);
+  accounts9.getOAuthAccessToken(code, callback_uri, function(err, access_token, refresh_token) {
+    if (err) {
+      return authError(err);
+    }
+    accounts9.getUser(function(err, user) {
+      if (err) {
+        return authError(err);
+      }
+      var username = user.username;
+      userman.updateNet9(user, function(err) {
         if (err) {
           return on_error(err);
         }

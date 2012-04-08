@@ -5,6 +5,7 @@
   "dependencies": {
     "express": ">= 2.5.9",
     "ejs": ">= 0.7.1",
+    "oauth": "latest",
     "less": "latest",
     "mongodb": "latest",
     "async": "latest"
