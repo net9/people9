@@ -64,8 +64,7 @@ exports.authCallback = function authCallback(req, res) {
     return authError(error);
   }
   
-  var callbackUri = utils.getSiteUrl(req) + '/auth_callback';
-  accounts9.getOAuthAccessToken(code, callbackUri, function(err, access_token, refresh_token) {
+  accounts9.getOAuthAccessToken(code, function(err, access_token, refresh_token) {
     if (err) {
       return authError(err);
     }
